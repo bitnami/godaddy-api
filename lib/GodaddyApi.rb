@@ -7,6 +7,15 @@ module GodaddyApi
   # client
   autoload :Client, 'GodaddyApi/client'
 
+  # errors
+  module Errors
+    autoload :Generic, 'GodaddyApi/errors'
+    autoload :Unauthorized, 'GodaddyApi/errors'
+    autoload :NotFound, 'GodaddyApi/errors'
+    autoload :Duplicate, 'GodaddyApi/errors'
+    autoload :InternalError, 'GodaddyApi/errors'
+  end
+
   # models
   autoload :Base, 'GodaddyApi/models/base'
   autoload :Action, 'GodaddyApi/models/action'
@@ -25,6 +34,7 @@ module GodaddyApi
   autoload :SpecMapping, 'GodaddyApi/mappings/spec_mapping'
 
   # resources
+  autoload :ResourceHelper, 'GodaddyApi/resources/resource_helper'
   autoload :ImageResource, 'GodaddyApi/resources/image_resource'
   autoload :KeyResource, 'GodaddyApi/resources/key_resource'
   autoload :LimitResource, 'GodaddyApi/resources/limit_resource'

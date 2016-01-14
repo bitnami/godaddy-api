@@ -1,7 +1,13 @@
 module GodaddyApi
   class ImageResource < ResourceKit::Resource
+    include ResourceHelper
+
     resources do
-      action :all, 'GET /v1/cloud/images' do
+      # TODO: is there any way to do this using inheritance / modules ?
+      default_handler(*Errors::Generic::standard_error_codes) { |r| Errors::Generic::standard_error_handle r }
+
+      action :list, 'GET /v1/cloud/images' do
+        query_keys :limit, :offset
         handler(200) { |response| GodaddyApi::ImageMapping.extract_collection(response.body, :read) }
       end
 
@@ -11,7 +17,7 @@ module GodaddyApi
 
       action :create, 'POST /v1/cloud/images' do
         body { |object| GodaddyApi::ImageMapping.representation_for(:create, object) }
-        handler(201) { |response| GodaddyApi::ImageMapping.extract_single(response.body, :read) }
+        handler(201, 202) { |response| GodaddyApi::ImageMapping.extract_single(response.body, :read) }
         # Error handling
         # handler(422) { |response| ErrorMapping.fail_with(FailedCreate, response.body) }
       end
